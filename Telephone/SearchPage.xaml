@@ -1,0 +1,55 @@
+﻿<Page x:Class="Telephone.SearchPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Telephone"
+      mc:Ignorable="d" 
+      HorizontalAlignment = "Stretch" VerticalAlignment="Stretch"
+      Title="SearchPage">
+
+    <Grid>
+        
+        
+        <StackPanel HorizontalAlignment="Left" Height="auto" VerticalAlignment="Top" Width="auto" Margin="10">
+            <StackPanel HorizontalAlignment="Center" Height="auto" VerticalAlignment="Top" Width="auto" Orientation="Horizontal">
+                <TextBox x:Name="searchTextBox" Width="300" Margin="10" FontSize="18" TextWrapping="Wrap" VerticalContentAlignment="Center"/>
+                <ComboBox x:Name="sTypeBox" Width="250" VerticalContentAlignment="Center" FontSize="18" Margin="10" SelectionChanged="sTypeBox_SelectionChanged" />
+                <Button x:Name="button" Content="Найти" Width="100" Margin="10" FontSize="18" Click="button_Click"/>
+                <TextBlock Margin="100,10,0,10" HorizontalAlignment="Left">
+                <Hyperlink x:Name="returnLink" NavigateUri=" " FontFamily="Vladimir Script" FontStyle="Italic" FontSize="18" Click="returnLink_Click">Вернуться к меню</Hyperlink>
+                </TextBlock>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Left" Height="auto" VerticalAlignment="Top" Width="auto" Orientation="Horizontal">
+                <GroupBox x:Name="typeGroupBox" Header="Тип номера" FontSize="22" Width="300" HorizontalAlignment="Left">
+                    <StackPanel>
+                        <RadioButton x:Name="tRadioButton1" GroupName="phoneType" Content="Личный" HorizontalAlignment="Left" FontSize="18" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="20,10" IsChecked="True" Checked="tRadioButton1_Checked"/>
+                        <RadioButton x:Name="tRadioButton2" GroupName="phoneType" Content="Корпоративный" HorizontalAlignment="Left" FontSize="18" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="20,10" Checked="tRadioButton2_Checked"/>
+                    </StackPanel>
+                </GroupBox>
+                <Label x:Name="errorLabel" Content="Критерий поиска не выбран!" Margin="20,20,0,20" FontFamily="Calibri" FontSize="18" Foreground="Red" Visibility="Collapsed"/>
+            </StackPanel>
+            
+            <Label x:Name="resultLabel" Content="Совпадений не найдено." Margin="0,20,0,20" FontFamily="Calibri" FontSize="18" Visibility="Collapsed" HorizontalAlignment="Center"/>
+            <DataGrid AutoGenerateColumns="False" x:Name="personalGrid" Width="860" Visibility="Collapsed" Margin="10">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding PhoneNumber}" Header="Номер телефона" Width="150" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Address}" Header="Адрес" Width="250" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Surname}" Header="Фамилия" Width="150" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Name}" Header="Имя" Width="150" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Patronymic}" Header="Отчество" Width="150" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid AutoGenerateColumns="False" x:Name="corporativeGrid" Width="810" Margin="10" Visibility="Collapsed">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding PhoneNumber}" Header="Номер телефона" Width="150" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Address}" Header="Адрес" Width="250" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Company}" Header="Название компании" Width="250" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Occupation}" Header="Род деятельности" Width="150" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+        
+
+    </Grid>
+</Page>

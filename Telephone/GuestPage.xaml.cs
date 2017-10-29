@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Telephone
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для GuestPage.xaml
     /// </summary>
-    public partial class MainWindow : NavigationWindow
+    public partial class GuestPage : Page
     {
-        public MainWindow()
+        public GuestPage()
         {
             InitializeComponent();
         }

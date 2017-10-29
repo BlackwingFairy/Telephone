@@ -1,0 +1,36 @@
+﻿<Page x:Class="Telephone.AdminPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Telephone"
+      mc:Ignorable="d" 
+      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+      Title="AdminPage">
+
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" Height="auto" VerticalAlignment="Top" Width="auto">
+            <Label x:Name="menuLabel" Content="Меню администратора"  HorizontalAlignment="Center" Margin="0,20,0,0" FontFamily="Vladimir Script" FontSize="36" FontStyle="Italic" FontWeight="Bold"/>
+            <TextBlock Margin="10" HorizontalAlignment="Center">
+                <Hyperlink NavigateUri="ViewPhonesPage.xaml" FontFamily="Vladimir Script" FontStyle="Italic" FontSize="24">Просмотреть базу</Hyperlink>
+            </TextBlock>
+            <TextBlock Margin="10" HorizontalAlignment="Center">
+                <Hyperlink NavigateUri="page2.xaml" FontFamily="Vladimir Script" FontStyle="Italic" FontSize="24">Добавить запись</Hyperlink>
+            </TextBlock>
+            <TextBlock Margin="10" HorizontalAlignment="Center">
+                <Hyperlink NavigateUri="page2.xaml" FontFamily="Vladimir Script" FontStyle="Italic" FontSize="24">Удалить запись</Hyperlink>
+            </TextBlock>
+            <TextBlock Margin="10" HorizontalAlignment="Center">
+                <Hyperlink NavigateUri="page2.xaml" FontFamily="Vladimir Script" FontStyle="Italic" FontSize="24">Редактировать записи</Hyperlink>
+            </TextBlock>
+            <TextBlock Margin="10" HorizontalAlignment="Center">
+                <Hyperlink NavigateUri="SearchPage.xaml" FontFamily="Vladimir Script" FontStyle="Italic" FontSize="24">Найти</Hyperlink>
+            </TextBlock>
+            <TextBlock Margin="10" HorizontalAlignment="Center">
+                <Hyperlink NavigateUri="StartPage.xaml" FontFamily="Vladimir Script" FontStyle="Italic" FontSize="24">Выход</Hyperlink>
+            </TextBlock>
+        </StackPanel>
+       
+
+    </Grid>
+</Page>

@@ -12,17 +12,24 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Telephone.Models;
 
 namespace Telephone
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для CorporativePhonesView.xaml
     /// </summary>
-    public partial class MainWindow : NavigationWindow
+    public partial class CorporativePhonesView : Page
     {
-        public MainWindow()
+        public CorporativePhonesView()
         {
             InitializeComponent();
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            PhoneContext db = new PhoneContext();
+            corporativeGrid.ItemsSource = db.CorpPhones.ToList<CorporativeTelephone>();
         }
     }
 }
