@@ -19,7 +19,24 @@
                 <Hyperlink x:Name="returnLink" NavigateUri=" " FontFamily="Vladimir Script" FontStyle="Italic" FontSize="24" Click="returnLink_Click">Вернуться к меню</Hyperlink>
                 </TextBlock>
             </StackPanel>
-            <Frame x:Name="frame" Source="PersonalPhonesView.xaml" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" NavigationUIVisibility="Hidden"/>
+            <DataGrid AutoGenerateColumns="False" x:Name="personalGrid" Width="860" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding PhoneNumber}" Header="Номер телефона" Width="150" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Address}" Header="Адрес" Width="250" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Surname}" Header="Фамилия" Width="150" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Name}" Header="Имя" Width="150" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Patronymic}" Header="Отчество" Width="150" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid AutoGenerateColumns="False" x:Name="corporativeGrid" Width="810" Visibility="Collapsed">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding PhoneNumber}" Header="Номер телефона" Width="150" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Address}" Header="Адрес" Width="250" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Company}" Header="Название компании" Width="250" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Occupation}" Header="Род деятельности" Width="150" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            
         </StackPanel>
 
     </Grid>

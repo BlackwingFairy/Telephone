@@ -1,0 +1,94 @@
+﻿<Page x:Class="Telephone.AddPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Telephone"
+      mc:Ignorable="d" 
+      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+      Title="AddPage">
+
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" Height="Auto" VerticalAlignment="Center" Width="auto">
+            <Label x:Name="label" Content="Добавление записи" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Vladimir Script" FontSize="48" FontStyle="Italic"/>
+            <StackPanel HorizontalAlignment="Right" Height="auto" VerticalAlignment="Top" Width="auto" Orientation="Horizontal">
+                <Label x:Name="typeLabel" Content="Тип номера:" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Vladimir Script" FontSize="18" FontStyle="Italic"/>
+                <ComboBox x:Name="typeBox" Width="250" VerticalContentAlignment="Center" FontSize="18" Margin="10" SelectionChanged="sTypeBox_SelectionChanged">
+                    <ComboBoxItem>
+                        <TextBlock>Личный</TextBlock>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock>Корпоративный</TextBlock>
+                    </ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Right" Height="auto" VerticalAlignment="Top" Width="auto" Orientation="Horizontal">
+                <Label x:Name="numberLabel" Content="Номер телефона:" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Vladimir Script" FontSize="18" FontStyle="Italic"/>
+                <TextBox x:Name="numberTextBox" Margin="10" FontSize="18" TextWrapping="Wrap" Width="250" VerticalContentAlignment="Center"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Right" Height="auto" VerticalAlignment="Top" Width="auto" Orientation="Horizontal">
+                <Label x:Name="addressLabel" Content="Адрес:" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Vladimir Script" FontSize="18" FontStyle="Italic"/>
+                <TextBox x:Name="addressTextBox" Margin="10" FontSize="18" TextWrapping="Wrap" Width="250" VerticalContentAlignment="Center"/>
+            </StackPanel>
+            <StackPanel x:Name="surnameStack" HorizontalAlignment="Right" Height="auto" VerticalAlignment="Top" Width="auto" Orientation="Horizontal" Visibility="Collapsed">
+                <Label x:Name="surnameLabel" Content="Фамилия:" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Vladimir Script" FontSize="18" FontStyle="Italic"/>
+                <TextBox x:Name="surnameTextBox" Margin="10" FontSize="18" TextWrapping="Wrap" Width="250" VerticalContentAlignment="Center"/>
+            </StackPanel>
+            <StackPanel x:Name="nameStack" HorizontalAlignment="Right" Height="auto" VerticalAlignment="Top" Width="auto" Orientation="Horizontal" Visibility="Collapsed">
+                <Label x:Name="nameLabel" Content="Имя:" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Vladimir Script" FontSize="18" FontStyle="Italic"/>
+                <TextBox x:Name="nameTextBox" Margin="10" FontSize="18" TextWrapping="Wrap" Width="250" VerticalContentAlignment="Center"/>
+            </StackPanel>
+            <StackPanel x:Name="patronymicStack" HorizontalAlignment="Right" Height="auto" VerticalAlignment="Top" Width="auto" Orientation="Horizontal" Visibility="Collapsed">
+                <Label x:Name="patronymicLabel" Content="Отчество:" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Vladimir Script" FontSize="18" FontStyle="Italic"/>
+                <TextBox x:Name="patronymicTextBox" Margin="10" FontSize="18" TextWrapping="Wrap" Width="250" VerticalContentAlignment="Center"/>
+            </StackPanel>
+            <StackPanel x:Name="companyStack" HorizontalAlignment="Right" Height="auto" VerticalAlignment="Top" Width="auto" Orientation="Horizontal" Visibility="Collapsed">
+                <Label x:Name="companyLabel" Content="Название компании:" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Vladimir Script" FontSize="18" FontStyle="Italic"/>
+                <TextBox x:Name="companyTextBox" Margin="10" FontSize="18" TextWrapping="Wrap" Width="250" VerticalContentAlignment="Center"/>
+            </StackPanel>
+            <StackPanel x:Name="occupationStack" HorizontalAlignment="Right" Height="auto" VerticalAlignment="Top" Width="auto" Orientation="Horizontal" Visibility="Collapsed">
+                <Label x:Name="occupationLabel" Content="Род деятельности:" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Vladimir Script" FontSize="18" FontStyle="Italic"/>
+                <ComboBox x:Name="occupationBox" Width="250" VerticalContentAlignment="Center" FontSize="18" Margin="10" SelectionChanged="sTypeBox_SelectionChanged">
+                    <ComboBoxItem>
+                        <TextBlock>IT</TextBlock>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock>Торговля</TextBlock>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock>Услуги</TextBlock>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock>Образование</TextBlock>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock>Развлечения</TextBlock>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock>Финансы</TextBlock>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock>Недвижимость</TextBlock>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock>Туризм</TextBlock>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock>Транспорт</TextBlock>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock>Другое</TextBlock>
+                    </ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            <Label x:Name="errorLabel" Content="" Margin="10" FontFamily="Calibri" FontSize="18" Foreground="Red" Visibility="Collapsed"/>
+            <StackPanel HorizontalAlignment="Center" Height="auto" VerticalAlignment="Top" Width="auto" Orientation="Horizontal">
+                <TextBlock Margin="0,10,40,10" HorizontalAlignment="Left">
+                    <Hyperlink x:Name="returnLink" NavigateUri=" " FontFamily="Vladimir Script" FontStyle="Italic" FontSize="18" Click="returnLink_Click">Вернуться к меню</Hyperlink>
+                </TextBlock>
+                <Button x:Name="button" Content=" Добавить " Width="auto" FontSize="20" VerticalContentAlignment="Center"/>                
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</Page>

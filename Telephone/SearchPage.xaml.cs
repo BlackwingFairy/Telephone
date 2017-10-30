@@ -90,6 +90,20 @@ namespace Telephone
             }
         }
 
+        private bool searchLineValid()
+        {
+            if (searchTextBox.Text.Length > 20)
+            {
+                errorLabel.Content = "Запрос не может быть длиннее 20 символов!";
+                errorLabel.Visibility = Visibility.Visible;
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         private List<PersonalTelephone> SearchPersonal()
         {
             List<PersonalTelephone> result = new List<PersonalTelephone>();

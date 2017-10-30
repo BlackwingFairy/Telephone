@@ -66,6 +66,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddPage.xaml.cs">
+      <DependentUpon>AddPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AdminPage.xaml.cs">
       <DependentUpon>AdminPage.xaml</DependentUpon>
     </Compile>
@@ -83,12 +86,6 @@
     <Compile Include="Models\CorporativeTelephone.cs" />
     <Compile Include="Models\PersonalTelephone.cs" />
     <Compile Include="Models\PhoneContext.cs" />
-    <Compile Include="CorporativePhonesView.xaml.cs">
-      <DependentUpon>CorporativePhonesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PersonalPhonesView.xaml.cs">
-      <DependentUpon>PersonalPhonesView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SearchPage.xaml.cs">
       <DependentUpon>SearchPage.xaml</DependentUpon>
     </Compile>
@@ -98,6 +95,10 @@
     <Compile Include="ViewPhonesPage.xaml.cs">
       <DependentUpon>ViewPhonesPage.xaml</DependentUpon>
     </Compile>
+    <Page Include="AddPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AdminPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -122,14 +123,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="CorporativePhonesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PersonalPhonesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="SearchPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

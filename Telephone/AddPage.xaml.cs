@@ -12,24 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Telephone.Models;
 
 namespace Telephone
 {
     /// <summary>
-    /// Логика взаимодействия для PersonalPhonesView.xaml
+    /// Логика взаимодействия для AddPage.xaml
     /// </summary>
-    public partial class PersonalPhonesView : Page
+    public partial class AddPage : Page
     {
-        public PersonalPhonesView()
+        public AddPage()
         {
             InitializeComponent();
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            PhoneContext db = new PhoneContext();
-            personalGrid.ItemsSource = db.PersPhone.ToList<PersonalTelephone>();
         }
     }
 }

@@ -17,7 +17,7 @@
                 <ComboBox x:Name="sTypeBox" Width="250" VerticalContentAlignment="Center" FontSize="18" Margin="10" SelectionChanged="sTypeBox_SelectionChanged" />
                 <Button x:Name="button" Content="Найти" Width="100" Margin="10" FontSize="18" Click="button_Click"/>
                 <TextBlock Margin="100,10,0,10" HorizontalAlignment="Left">
-                <Hyperlink x:Name="returnLink" NavigateUri=" " FontFamily="Vladimir Script" FontStyle="Italic" FontSize="18" Click="returnLink_Click">Вернуться к меню</Hyperlink>
+                    <Hyperlink x:Name="returnLink" NavigateUri=" " FontFamily="Vladimir Script" FontStyle="Italic" FontSize="18" Click="returnLink_Click">Вернуться к меню</Hyperlink>
                 </TextBlock>
             </StackPanel>
             <StackPanel HorizontalAlignment="Left" Height="auto" VerticalAlignment="Top" Width="auto" Orientation="Horizontal">

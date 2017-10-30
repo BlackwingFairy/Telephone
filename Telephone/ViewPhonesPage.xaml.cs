@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Telephone.Models;
 
 namespace Telephone
 {
@@ -23,16 +24,21 @@ namespace Telephone
         public ViewPhonesPage()
         {
             InitializeComponent();
+            PhoneContext db = new PhoneContext();
+            personalGrid.ItemsSource = db.PersPhone.ToList<PersonalTelephone>();
+            corporativeGrid.ItemsSource = db.CorpPhones.ToList<CorporativeTelephone>();
         }
 
         private void personalButton_Click(object sender, RoutedEventArgs e)
         {
-            frame.Source = new Uri("PersonalPhonesView.xaml", UriKind.RelativeOrAbsolute);
+            personalGrid.Visibility = Visibility.Visible;
+            corporativeGrid.Visibility = Visibility.Collapsed;
         }
 
         private void corpButton_Click(object sender, RoutedEventArgs e)
-        {
-            frame.Source = new Uri("CorporativePhonesView.xaml", UriKind.RelativeOrAbsolute);
+        {          
+            corporativeGrid.Visibility = Visibility.Visible;
+            personalGrid.Visibility = Visibility.Collapsed;
         }
 
         private void returnLink_Click(object sender, RoutedEventArgs e)
