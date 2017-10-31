@@ -75,6 +75,9 @@
     <Compile Include="AutentificationPage.xaml.cs">
       <DependentUpon>AutentificationPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DeletePage.xaml.cs">
+      <DependentUpon>DeletePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GuestPage.xaml.cs">
       <DependentUpon>GuestPage.xaml</DependentUpon>
     </Compile>
@@ -86,6 +89,9 @@
     <Compile Include="Models\CorporativeTelephone.cs" />
     <Compile Include="Models\PersonalTelephone.cs" />
     <Compile Include="Models\PhoneContext.cs" />
+    <Compile Include="RedactionPage.xaml.cs">
+      <DependentUpon>RedactionPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SearchPage.xaml.cs">
       <DependentUpon>SearchPage.xaml</DependentUpon>
     </Compile>
@@ -94,6 +100,9 @@
     </Compile>
     <Compile Include="ViewPhonesPage.xaml.cs">
       <DependentUpon>ViewPhonesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewRedactionPage.xaml.cs">
+      <DependentUpon>ViewRedactionPage.xaml</DependentUpon>
     </Compile>
     <Page Include="AddPage.xaml">
       <SubType>Designer</SubType>
@@ -104,6 +113,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AutentificationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DeletePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -123,6 +136,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="RedactionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SearchPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -132,6 +149,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ViewPhonesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewRedactionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

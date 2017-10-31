@@ -17,13 +17,38 @@ using Telephone.Models;
 namespace Telephone
 {
     /// <summary>
-    /// Логика взаимодействия для AddPage.xaml
+    /// Логика взаимодействия для ViewRedactionPage.xaml
     /// </summary>
-    public partial class AddPage : Page
+    public partial class ViewRedactionPage : Page
     {
-        public AddPage()
+        public ViewRedactionPage()
         {
             InitializeComponent();
+        }
+
+        public object Phone { get; set; }
+        public int T { get; set; }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            typeBox.SelectedIndex = T;
+            if (T == 0)
+            {
+                PersonalTelephone phone = Phone as PersonalTelephone;
+                numberTextBox.Text = phone.PhoneNumber;
+                addressTextBox.Text = phone.Address;
+                surnameTextBox.Text = phone.Surname;
+                nameTextBox.Text = phone.Name;
+                patronymicTextBox.Text = phone.Patronymic;
+            }
+            else
+            {
+                CorporativeTelephone phone = Phone as CorporativeTelephone;
+                numberTextBox.Text = phone.PhoneNumber;
+                addressTextBox.Text = phone.Address;
+                companyTextBox.Text = phone.Company;
+                occupationBox.Text = phone.Occupation;
+            }
             
         }
 
@@ -62,16 +87,16 @@ namespace Telephone
         {
             if (textBox.Text.Length != 0)
             {
-                if ((textBox.Text.Length<start) || (textBox.Text.Length > end))
+                if ((textBox.Text.Length < start) || (textBox.Text.Length > end))
                 {
                     if (start != 0)
                     {
-                        eLabel.Content = "Поле \"" + name + "\" должно содержать от " +start+" до "+end+" символов.";
-                        
+                        eLabel.Content = "Поле \"" + name + "\" должно содержать от " + start + " до " + end + " символов.";
+
                     }
                     else
                     {
-                        eLabel.Content = "В поле \""+name+ "\" нельзя вводить более "+end+" символов";
+                        eLabel.Content = "В поле \"" + name + "\" нельзя вводить более " + end + " символов";
                     }
                     eLabel.Visibility = Visibility.Visible;
                     return false;
@@ -145,15 +170,15 @@ namespace Telephone
             errorLabel.Visibility = Visibility.Collapsed;
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             switch (typeBox.SelectedIndex)
             {
                 case 0:
-                    PersonalAdd();
+                    PersonalRedaction(Phone as PersonalTelephone);
                     break;
                 case 1:
-                    CorpAdd();
+                    CorpRedaction(Phone as CorporativeTelephone);
                     break;
                 default:
                     errorLabel.Visibility = Visibility.Visible;
@@ -161,32 +186,8 @@ namespace Telephone
             }
         }
 
-        private bool isDublicate(int table, string number)
-        {
-            
-            if (table == 0)
-            {
-                List<PersonalTelephone> result = context.PersPhone.Where(p => p.PhoneNumber == number).ToList();
-                if (result.Count != 0)
-                {
-                    MessageBox.Show("Данный номер уже есть в базе", "Ошибка",  MessageBoxButton.OK);
-                    return true;
-                }
-            }
-            else
-            {
-                List<CorporativeTelephone> result = context.CorpPhones.Where(p => p.PhoneNumber == number).ToList();
-                if (result.Count != 0)
-                {
-                    MessageBox.Show("Данный номер уже есть в базе", "Ошибка", MessageBoxButton.OK);
-                    return true;
-                }
-            }
-            
-            return false;
-        }
-
-        private void PersonalAdd()
+        
+        private void PersonalRedaction(PersonalTelephone phone)
         {
             bool numValid = LengthValid(10, 20, numErrorLabel, numberTextBox, "Телефон");
             bool addrValid = LengthValid(0, 300, addrErrorLabel, addressTextBox, "Адрес");
@@ -194,52 +195,60 @@ namespace Telephone
             bool nameValid = LengthValid(0, 20, nameErrorLabel, nameTextBox, "Имя");
             bool patrValid = LengthValid(0, 20, patrErrorLabel, patronymicTextBox, "Отчество");
 
-            if (numValid & addrValid & surValid & nameValid & patrValid & !isDublicate(0,numberTextBox.Text))
+            if (numValid & addrValid & surValid & nameValid & patrValid)
             {
-                context.PersPhone.Add(new PersonalTelephone() {
-                    PhoneNumber = numberTextBox.Text,
-                    Address = addressTextBox.Text,
-                    Surname = surnameTextBox.Text,
-                    Name = nameTextBox.Text,
-                    Patronymic = patronymicTextBox.Text
-                });
+                PersonalTelephone redPhone = context.PersPhone.Find(phone.Id);
+
+                redPhone.PhoneNumber = numberTextBox.Text;
+                redPhone.Address = addressTextBox.Text;
+                redPhone.Surname = surnameTextBox.Text;
+                redPhone.Name = nameTextBox.Text;
+                redPhone.Patronymic = patronymicTextBox.Text;
+                
                 context.SaveChanges();
-                MessageBox.Show("Добавление записи", "Данные успешно добавлены в базу.", MessageBoxButton.OK);
+                var result = MessageBox.Show("Изменения успешно добавлены в базу.","Редактирование записи", MessageBoxButton.OK);
+                if (result == MessageBoxResult.OK)
+                {
+                    NavigationService.GoBack();
+                }
             }
         }
 
 
-        private void CorpAdd()
+        private void CorpRedaction(CorporativeTelephone phone)
         {
             bool numValid = LengthValid(10, 20, numErrorLabel, numberTextBox, "Телефон");
             bool addrValid = LengthValid(0, 300, addrErrorLabel, addressTextBox, "Адрес");
             bool compValid = LengthValid(0, 100, compErrorLabel, companyTextBox, "Название компании");
             bool occupValid = occupationBox.SelectedIndex != -1;
 
-            if (numValid & addrValid & compValid & occupValid & !isDublicate(1, numberTextBox.Text))
+            if (numValid & addrValid & compValid & occupValid)
             {
-                context.CorpPhones.Add(new CorporativeTelephone()
-                {
-                    PhoneNumber = numberTextBox.Text,
-                    Address = addressTextBox.Text,
-                    Company = companyTextBox.Text,
-                    Occupation = occupationBox.Text
-                });
+                CorporativeTelephone redPhone = context.CorpPhones.Find(phone.Id);
+
+                redPhone.PhoneNumber = numberTextBox.Text;
+                redPhone.Address = addressTextBox.Text;
+                redPhone.Occupation = occupationBox.Text;
+                redPhone.Company = companyTextBox.Text;                
+
                 context.SaveChanges();
-                MessageBox.Show("Добавление записи", "Данные успешно добавлены в базу.", MessageBoxButton.OK);
+                var result = MessageBox.Show("Изменения успешно добавлены в базу.", "Редактирование записи", MessageBoxButton.OK);
+                if (result == MessageBoxResult.OK)
+                {
+                    NavigationService.GoBack();
+                }
             }
         }
 
-        private void returnLink_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService.GoBack();
-        }
-
+       
         private void oTypeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             errorLabel.Visibility = Visibility.Collapsed;
         }
 
-        
+        private void returnButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.GoBack();
+        }
     }
 }

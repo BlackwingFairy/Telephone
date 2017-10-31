@@ -15,13 +15,13 @@
                 <Hyperlink NavigateUri="ViewPhonesPage.xaml" FontFamily="Vladimir Script" FontStyle="Italic" FontSize="24">Просмотреть базу</Hyperlink>
             </TextBlock>
             <TextBlock Margin="10" HorizontalAlignment="Center">
-                <Hyperlink NavigateUri="page2.xaml" FontFamily="Vladimir Script" FontStyle="Italic" FontSize="24">Добавить запись</Hyperlink>
+                <Hyperlink NavigateUri="AddPage.xaml" FontFamily="Vladimir Script" FontStyle="Italic" FontSize="24">Добавить запись</Hyperlink>
             </TextBlock>
             <TextBlock Margin="10" HorizontalAlignment="Center">
-                <Hyperlink NavigateUri="page2.xaml" FontFamily="Vladimir Script" FontStyle="Italic" FontSize="24">Удалить запись</Hyperlink>
+                <Hyperlink NavigateUri="DeletePage.xaml" FontFamily="Vladimir Script" FontStyle="Italic" FontSize="24">Удалить запись</Hyperlink>
             </TextBlock>
             <TextBlock Margin="10" HorizontalAlignment="Center">
-                <Hyperlink NavigateUri="page2.xaml" FontFamily="Vladimir Script" FontStyle="Italic" FontSize="24">Редактировать записи</Hyperlink>
+                <Hyperlink NavigateUri="RedactionPage.xaml" FontFamily="Vladimir Script" FontStyle="Italic" FontSize="24">Редактировать записи</Hyperlink>
             </TextBlock>
             <TextBlock Margin="10" HorizontalAlignment="Center">
                 <Hyperlink NavigateUri="SearchPage.xaml" FontFamily="Vladimir Script" FontStyle="Italic" FontSize="24">Найти</Hyperlink>
