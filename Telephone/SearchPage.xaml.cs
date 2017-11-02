@@ -92,16 +92,26 @@ namespace Telephone
 
         private bool searchLineValid()
         {
-            if (searchTextBox.Text.Length > 20)
+            if (searchTextBox.Text.Length != 0)
             {
-                errorLabel.Content = "Запрос не может быть длиннее 20 символов!";
-                errorLabel.Visibility = Visibility.Visible;
-                return false;
+                if (searchTextBox.Text.Length > 20)
+                {
+                    errorLabel.Content = "Запрос не может быть длиннее 20 символов!";
+                    errorLabel.Visibility = Visibility.Visible;
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
             }
             else
             {
-                return true;
+                errorLabel.Content = "Заполните все поля!";
+                errorLabel.Visibility = Visibility.Visible;
+                return false;
             }
+            
         }
 
         private List<PersonalTelephone> SearchPersonal()
@@ -152,6 +162,11 @@ namespace Telephone
         }
 
         private void sTypeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            errorLabel.Visibility = Visibility.Collapsed;
+        }
+
+        private void searchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             errorLabel.Visibility = Visibility.Collapsed;
         }

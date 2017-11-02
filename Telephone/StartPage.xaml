@@ -8,12 +8,14 @@
       HorizontalAlignment = "Stretch" VerticalAlignment="Stretch"
       Title="StartPage">
 
-    <Grid>
-        <StackPanel HorizontalAlignment="Center" Height="auto" VerticalAlignment="Center" Width="auto" Margin="20" >
-            <Label x:Name="label" Content="Электронный телефонный справочник" HorizontalAlignment="Center" VerticalAlignment="Top"
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <Grid>
+            <StackPanel HorizontalAlignment="Center" Height="auto" VerticalAlignment="Center" Width="auto" Margin="20" >
+                <Label x:Name="label" Content="Электронный телефонный справочник" HorizontalAlignment="Center" VerticalAlignment="Top"
                    FontFamily="Vladimir Script" FontSize="48" FontStyle="Italic"/>
-            <Button x:Name="button1" Margin="10" Content="Авторизироваться" FontSize="36" FontStyle="Italic" FontFamily="Buxton Sketch" Click="button1_Click" />
-            <Button x:Name="button2" Margin="10" Content="Войти как гость" FontSize="36" FontStyle="Italic" FontFamily="Buxton Sketch" Click="button2_Click" />
-        </StackPanel>
-    </Grid>
+                <Button x:Name="button1" Margin="10" Content="Авторизироваться" FontSize="36" FontStyle="Italic" FontFamily="Buxton Sketch" Click="button1_Click" />
+                <Button x:Name="button2" Margin="10" Content="Войти как гость" FontSize="36" FontStyle="Italic" FontFamily="Buxton Sketch" Click="button2_Click" />
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
 </Page>
