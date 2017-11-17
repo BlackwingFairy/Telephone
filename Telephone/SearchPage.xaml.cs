@@ -90,11 +90,11 @@ namespace Telephone
             }
         }
 
-        private bool searchLineValid(string text)
+        private bool searchLineValid()
         {
-            if (text.Length != 0)
+            if (searchTextBox.Text.Length != 0)
             {
-                if (text.Length > 20)
+                if (searchTextBox.Text.Length > 20)
                 {
                     errorLabel.Content = "Запрос не может быть длиннее 20 символов!";
                     errorLabel.Visibility = Visibility.Visible;
@@ -117,51 +117,41 @@ namespace Telephone
         private List<PersonalTelephone> SearchPersonal()
         {
             List<PersonalTelephone> result = new List<PersonalTelephone>();
-
-            if (searchLineValid(searchTextBox.Text))
+            switch (sTypeBox.SelectedIndex)
             {
-               
-                switch (sTypeBox.SelectedIndex)
-                {
-                    case 0:
-                        result = db.PersPhone.Where(phone => phone.Name == searchTextBox.Text).ToList();
-                        result.AddRange(db.PersPhone.Where(phone => phone.Surname == searchTextBox.Text).ToList());
-                        result.AddRange(db.PersPhone.Where(phone => phone.Patronymic == searchTextBox.Text).ToList());
-                        break;
-                    case 1:
-                        result = db.PersPhone.Where(phone => phone.PhoneNumber == searchTextBox.Text).ToList();
-                        break;
-                    default:
-                        errorLabel.Visibility = Visibility.Visible;
-                        break;
-                }
+                case 0:
+                    result = db.PersPhone.Where(phone => phone.Name == searchTextBox.Text).ToList();
+                    result.AddRange(db.PersPhone.Where(phone => phone.Surname == searchTextBox.Text).ToList());
+                    result.AddRange(db.PersPhone.Where(phone => phone.Patronymic == searchTextBox.Text).ToList());
+                    break;
+                case 1:
+                    result = db.PersPhone.Where(phone => phone.PhoneNumber == searchTextBox.Text).ToList();
+                    break;
+                default:
+                    errorLabel.Visibility = Visibility.Visible;
+                    break;
             }
-            
             return result;
         }
 
         private List<CorporativeTelephone> SearchCorporative()
         {
             List<CorporativeTelephone> result = new List<CorporativeTelephone>();
-            if (searchLineValid(searchTextBox.Text))
+            switch (sTypeBox.SelectedIndex)
             {
-                switch (sTypeBox.SelectedIndex)
-                {
-                    case 0:
-                        result = db.CorpPhones.Where(phone => phone.Company == searchTextBox.Text).ToList();
-                        break;
-                    case 1:
-                        result = db.CorpPhones.Where(phone => phone.PhoneNumber == searchTextBox.Text).ToList();
-                        break;
-                    case 2:
-                        result = db.CorpPhones.Where(phone => phone.Occupation == searchTextBox.Text).ToList();
-                        break;
-                    default:
-                        errorLabel.Visibility = Visibility.Visible;
-                        break;
-                }
+                case 0:
+                    result = db.CorpPhones.Where(phone => phone.Company == searchTextBox.Text).ToList();
+                    break;
+                case 1:
+                    result = db.CorpPhones.Where(phone => phone.PhoneNumber == searchTextBox.Text).ToList();
+                    break;
+                case 2:
+                    result = db.CorpPhones.Where(phone => phone.Occupation == searchTextBox.Text).ToList();
+                    break;
+                default:
+                    errorLabel.Visibility = Visibility.Visible;
+                    break;
             }
-                
             return result;
         }
 
