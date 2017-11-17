@@ -27,6 +27,23 @@ namespace Telephone
             
         }
 
+        public Label TestLabel = new Label();
+        public object Added;
+        
+        
+
+        public void TestFields()
+        {
+            numberTextBox.Text = "11111111111";
+            addressTextBox.Text = "address";
+            surnameTextBox.Text = "yakovchits";
+            nameTextBox.Text = "ksenia";
+            patronymicTextBox.Text = "olegovna";
+            companyTextBox.Text = "company";
+            occupationBox.SelectedIndex = 0;
+        }
+       
+
         PhoneContext context = new PhoneContext();
 
         private void typeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -58,11 +75,11 @@ namespace Telephone
             errorLabel.Visibility = Visibility.Collapsed;
         }
 
-        private bool LengthValid(int start, int end, Label eLabel, TextBox textBox, string name)
+        private bool LengthValid(int start, int end, Label eLabel, string text, string name)
         {
-            if (textBox.Text.Length != 0)
+            if (text.Length != 0)
             {
-                if ((textBox.Text.Length<start) || (textBox.Text.Length > end))
+                if ((text.Length<start) || (text.Length > end))
                 {
                     if (start != 0)
                     {
@@ -147,16 +164,23 @@ namespace Telephone
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            switch (typeBox.SelectedIndex)
+            Add(typeBox.SelectedIndex);
+        }
+
+        private void Add(int selected)
+        {
+            switch (selected)
             {
                 case 0:
-                    PersonalAdd();
+                    Added = PersonalAdd();
                     break;
+
                 case 1:
-                    CorpAdd();
+                    Added = CorpAdd();
                     break;
                 default:
                     errorLabel.Visibility = Visibility.Visible;
+                    Added = null;
                     break;
             }
         }
@@ -186,48 +210,59 @@ namespace Telephone
             return false;
         }
 
-        private void PersonalAdd()
+        private object PersonalAdd()
         {
-            bool numValid = LengthValid(10, 20, numErrorLabel, numberTextBox, "Телефон");
-            bool addrValid = LengthValid(0, 300, addrErrorLabel, addressTextBox, "Адрес");
-            bool surValid = LengthValid(0, 20, surErrorLabel, surnameTextBox, "Фамилия");
-            bool nameValid = LengthValid(0, 20, nameErrorLabel, nameTextBox, "Имя");
-            bool patrValid = LengthValid(0, 20, patrErrorLabel, patronymicTextBox, "Отчество");
+            bool numValid = LengthValid(10, 20, numErrorLabel, numberTextBox.Text, "Телефон");
+            bool addrValid = LengthValid(0, 300, addrErrorLabel, addressTextBox.Text, "Адрес");
+            bool surValid = LengthValid(0, 20, surErrorLabel, surnameTextBox.Text, "Фамилия");
+            bool nameValid = LengthValid(0, 20, nameErrorLabel, nameTextBox.Text, "Имя");
+            bool patrValid = LengthValid(0, 20, patrErrorLabel, patronymicTextBox.Text, "Отчество");
+
+            PersonalTelephone toAdd = null;
 
             if (numValid & addrValid & surValid & nameValid & patrValid & !isDublicate(0,numberTextBox.Text))
             {
-                context.PersPhone.Add(new PersonalTelephone() {
+                toAdd = new PersonalTelephone()
+                {
                     PhoneNumber = numberTextBox.Text,
                     Address = addressTextBox.Text,
                     Surname = surnameTextBox.Text,
                     Name = nameTextBox.Text,
                     Patronymic = patronymicTextBox.Text
-                });
-                context.SaveChanges();
+                };
+                context.PersPhone.Add(toAdd);
+                //context.SaveChanges();
                 MessageBox.Show("Добавление записи", "Данные успешно добавлены в базу.", MessageBoxButton.OK);
+                
             }
+            return toAdd;
+
         }
 
 
-        private void CorpAdd()
+        private CorporativeTelephone CorpAdd()
         {
-            bool numValid = LengthValid(10, 20, numErrorLabel, numberTextBox, "Телефон");
-            bool addrValid = LengthValid(0, 300, addrErrorLabel, addressTextBox, "Адрес");
-            bool compValid = LengthValid(0, 100, compErrorLabel, companyTextBox, "Название компании");
+            bool numValid = LengthValid(10, 20, numErrorLabel, numberTextBox.Text, "Телефон");
+            bool addrValid = LengthValid(0, 300, addrErrorLabel, addressTextBox.Text, "Адрес");
+            bool compValid = LengthValid(0, 100, compErrorLabel, companyTextBox.Text, "Название компании");
             bool occupValid = occupationBox.SelectedIndex != -1;
+
+            CorporativeTelephone toAdd = null;
 
             if (numValid & addrValid & compValid & occupValid & !isDublicate(1, numberTextBox.Text))
             {
-                context.CorpPhones.Add(new CorporativeTelephone()
+                toAdd = new CorporativeTelephone()
                 {
                     PhoneNumber = numberTextBox.Text,
                     Address = addressTextBox.Text,
                     Company = companyTextBox.Text,
                     Occupation = occupationBox.Text
-                });
-                context.SaveChanges();
+                };
+                context.CorpPhones.Add(toAdd);
+                //context.SaveChanges();
                 MessageBox.Show("Добавление записи", "Данные успешно добавлены в базу.", MessageBoxButton.OK);
             }
+            return toAdd;
         }
 
         private void returnLink_Click(object sender, RoutedEventArgs e)
