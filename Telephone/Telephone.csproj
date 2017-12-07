@@ -89,12 +89,15 @@
     <Compile Include="Models\CorporativeTelephone.cs" />
     <Compile Include="Models\PersonalTelephone.cs" />
     <Compile Include="Models\PhoneContext.cs" />
+    <Compile Include="Models\Telephone.cs" />
     <Compile Include="RedactionPage.xaml.cs">
       <DependentUpon>RedactionPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SearchPage.xaml.cs">
       <DependentUpon>SearchPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\AddService.cs" />
+    <Compile Include="Services\Data.cs" />
     <Compile Include="StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
     </Compile>

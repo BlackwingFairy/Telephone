@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Telephone.Models
 {
-    class PhoneContext : DbContext
+    public class PhoneContext : DbContext
     {
         public PhoneContext() : base("DefaultConnection")
         {
 
         }
 
-        public DbSet<CorporativeTelephone> CorpPhones { get; set; }
-        public DbSet<PersonalTelephone> PersPhone { get; set; }
+        public virtual DbSet<CorporativeTelephone> CorpPhones { get; set; }
+        public virtual DbSet<PersonalTelephone> PersPhone { get; set; }
     }
 }

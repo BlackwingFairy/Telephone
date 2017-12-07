@@ -26,6 +26,7 @@ namespace Telephone
             InitializeComponent();
         }
 
+        List<Phone> testList;
         PhoneContext db = new PhoneContext();
 
         private void tRadioButton1_Checked(object sender, RoutedEventArgs e)
@@ -45,9 +46,14 @@ namespace Telephone
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            if (tRadioButton1.IsChecked == true)
+            testList = Search(searchTextBox.Text, sTypeBox.SelectedIndex, (bool)tRadioButton1.IsChecked).ToList();
+        }
+
+        private IEnumerable<Phone> Search(string text, int selected, bool check)
+        {
+            if (check)
             {
-                List<PersonalTelephone> list = SearchPersonal();
+                List<PersonalTelephone> list = SearchPersonal(text, selected);
                 if (list.Count != 0)
                 {
                     resultLabel.Visibility = Visibility.Collapsed;
@@ -55,6 +61,7 @@ namespace Telephone
                     personalGrid.Visibility = Visibility.Visible;
 
                     personalGrid.ItemsSource = list;
+                    
                 }
                 else
                 {
@@ -66,16 +73,17 @@ namespace Telephone
                     }
                     
                 }
+                return list;
             }
             else
             {
-                List<CorporativeTelephone> list = SearchCorporative();
+                List<CorporativeTelephone> list = SearchCorporative(text, selected);
                 if (list.Count != 0)
                 {
                     resultLabel.Visibility = Visibility.Collapsed;
                     personalGrid.Visibility = Visibility.Collapsed;
                     corporativeGrid.Visibility = Visibility.Visible;
-                    
+
                     corporativeGrid.ItemsSource = list;
                 }
                 else
@@ -87,14 +95,15 @@ namespace Telephone
                         resultLabel.Visibility = Visibility.Visible;
                     }
                 }
+                return list;
             }
         }
 
-        private bool searchLineValid()
+        private bool SearchLineValid(string text)
         {
-            if (searchTextBox.Text.Length != 0)
+            if (text.Length != 0)
             {
-                if (searchTextBox.Text.Length > 20)
+                if (text.Length > 20)
                 {
                     errorLabel.Content = "Запрос не может быть длиннее 20 символов!";
                     errorLabel.Visibility = Visibility.Visible;
@@ -114,44 +123,51 @@ namespace Telephone
             
         }
 
-        private List<PersonalTelephone> SearchPersonal()
+        private List<PersonalTelephone> SearchPersonal(string text, int selected)
         {
             List<PersonalTelephone> result = new List<PersonalTelephone>();
-            switch (sTypeBox.SelectedIndex)
+            if (SearchLineValid(text))
             {
-                case 0:
-                    result = db.PersPhone.Where(phone => phone.Name == searchTextBox.Text).ToList();
-                    result.AddRange(db.PersPhone.Where(phone => phone.Surname == searchTextBox.Text).ToList());
-                    result.AddRange(db.PersPhone.Where(phone => phone.Patronymic == searchTextBox.Text).ToList());
-                    break;
-                case 1:
-                    result = db.PersPhone.Where(phone => phone.PhoneNumber == searchTextBox.Text).ToList();
-                    break;
-                default:
-                    errorLabel.Visibility = Visibility.Visible;
-                    break;
-            }
+                switch (selected)
+                {
+                    case 0:
+                        result = db.PersPhone.Where(phone => phone.Name == text).ToList();
+                        result.AddRange(db.PersPhone.Where(phone => phone.Surname == text).ToList());
+                        result.AddRange(db.PersPhone.Where(phone => phone.Patronymic == text).ToList());
+                        break;
+                    case 1:
+                        result = db.PersPhone.Where(phone => phone.PhoneNumber == text).ToList();
+                        break;
+                    default:
+                        errorLabel.Visibility = Visibility.Visible;
+                        break;
+                }
+            }            
             return result;
         }
 
-        private List<CorporativeTelephone> SearchCorporative()
+        private List<CorporativeTelephone> SearchCorporative(string text, int selected)
         {
             List<CorporativeTelephone> result = new List<CorporativeTelephone>();
-            switch (sTypeBox.SelectedIndex)
+            if (SearchLineValid(text))
             {
-                case 0:
-                    result = db.CorpPhones.Where(phone => phone.Company == searchTextBox.Text).ToList();
-                    break;
-                case 1:
-                    result = db.CorpPhones.Where(phone => phone.PhoneNumber == searchTextBox.Text).ToList();
-                    break;
-                case 2:
-                    result = db.CorpPhones.Where(phone => phone.Occupation == searchTextBox.Text).ToList();
-                    break;
-                default:
-                    errorLabel.Visibility = Visibility.Visible;
-                    break;
+                switch (selected)
+                {
+                    case 0:
+                        result = db.CorpPhones.Where(phone => phone.Company == text).ToList();
+                        break;
+                    case 1:
+                        result = db.CorpPhones.Where(phone => phone.PhoneNumber == text).ToList();
+                        break;
+                    case 2:
+                        result = db.CorpPhones.Where(phone => phone.Occupation == text).ToList();
+                        break;
+                    default:
+                        errorLabel.Visibility = Visibility.Visible;
+                        break;
+                }
             }
+                
             return result;
         }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Telephone.Models
 {
-    public class CorporativeTelephone
+    public class CorporativeTelephone : Phone
     {
         public int Id { get; set; }
         public string PhoneNumber { get; set; }
