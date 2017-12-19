@@ -35,13 +35,13 @@ namespace Telephone
             InitializeComponent();
             context = new PhoneContext();
             service = new AddService(context);
+            vServise = new ValidationServise(errorLabel);
         }
 
 
         PhoneContext context;
         AddService service;
-        Label testLabel = new Label();
-        
+        ValidationServise vServise;
 
         private void typeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -72,49 +72,18 @@ namespace Telephone
             errorLabel.Visibility = Visibility.Collapsed;
         }
 
-        private bool LengthValid(int start, int end, Label eLabel, Label empty, string textBox, string name)
-        {
-            if (textBox.Length != 0)
-            {
-                if ((textBox.Length<start) || (textBox.Length > end))
-                {
-                    if (start != 0)
-                    {
-                        eLabel.Content = "Поле \"" + name + "\" должно содержать от " +start+" до "+end+" символов.";
-                        
-                    }
-                    else
-                    {
-                        eLabel.Content = "В поле \""+name+ "\" нельзя вводить более "+end+" символов";
-                    }
-                    eLabel.Visibility = Visibility.Visible;
-                    return false;
-                }
-                else
-                {
-                    eLabel.Visibility = Visibility.Collapsed;
-                    return true;
-                }
-
-            }
-            else
-            {
-                empty.Content = "Все поля должны быть заполнены";
-                empty.Visibility = Visibility.Visible;
-                return false;
-            }
-        }
+        
 
         public bool FieldsValidation(Data data, int selectedType)
         {
             switch (selectedType)
             {
                 case 0:
-                    bool numValidP = LengthValid(10, 20, numErrorLabel, errorLabel, data.Number, "Телефон");
-                    bool addrValidP = LengthValid(0, 300, addrErrorLabel, errorLabel, data.Address, "Адрес");
-                    bool surValid = LengthValid(0, 20, surErrorLabel, errorLabel, data.Surname, "Фамилия");
-                    bool nameValid = LengthValid(0, 20, nameErrorLabel, errorLabel, data.Name, "Имя");
-                    bool patrValid = LengthValid(0, 20, patrErrorLabel, errorLabel,data.Patronymic, "Отчество");
+                    bool numValidP = vServise.LengthValid(10, 20, numErrorLabel, data.Number, "Телефон");
+                    bool addrValidP = vServise.LengthValid(0, 300, addrErrorLabel, data.Address, "Адрес");
+                    bool surValid = vServise.LengthValid(0, 20, surErrorLabel, data.Surname, "Фамилия");
+                    bool nameValid = vServise.LengthValid(0, 20, nameErrorLabel, data.Name, "Имя");
+                    bool patrValid = vServise.LengthValid(0, 20, patrErrorLabel,data.Patronymic, "Отчество");
                     if (numValidP && addrValidP && surValid && nameValid && patrValid)
                     {
                         return true;
@@ -124,9 +93,9 @@ namespace Telephone
                         return false;
                     }
                 case 1:
-                    bool numValidC = LengthValid(10, 20, numErrorLabel, errorLabel, data.Number, "Телефон");
-                    bool addrValidC = LengthValid(0, 300, addrErrorLabel, errorLabel, data.Address, "Адрес");
-                    bool compValid = LengthValid(0, 100, compErrorLabel, errorLabel, data.Company, "Название компании");
+                    bool numValidC = vServise.LengthValid(10, 20, numErrorLabel, data.Number, "Телефон");
+                    bool addrValidC = vServise.LengthValid(0, 300, addrErrorLabel, data.Address, "Адрес");
+                    bool compValid = vServise.LengthValid(0, 100, compErrorLabel, data.Company, "Название компании");
                     bool occupValid = data.Occupation != null;
 
                     if (numValidC && addrValidC && compValid && occupValid)
@@ -137,8 +106,7 @@ namespace Telephone
                     {
                         return false;
                     }
-                default:
-                    errorLabel.Visibility = Visibility.Visible;
+                default:                    
                     return false;
             }
         }

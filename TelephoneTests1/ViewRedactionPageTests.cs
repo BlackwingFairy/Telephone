@@ -5,15 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Telephone.Models;
-using Moq;
-using System.Data.Entity;
 using Telephone.Services;
 
 namespace Telephone.Tests
 {
     [TestClass()]
-    public class AddPageTests
+    public class ViewRedactionPageTests
     {
         [TestMethod()]
         public void FieldsValidation_SelectedNull_NotValidFields_ReturnFalse()
@@ -28,7 +25,7 @@ namespace Telephone.Tests
                 Company = "Company",
                 Occupation = "IT"
             };
-            AddPage page = new AddPage();
+            ViewRedactionPage page = new ViewRedactionPage();
             bool result = page.FieldsValidation(data, 0);
             Assert.IsFalse(result);
         }
@@ -46,7 +43,7 @@ namespace Telephone.Tests
                 Company = "Company",
                 Occupation = "IT"
             };
-            AddPage page = new AddPage();
+            ViewRedactionPage page = new ViewRedactionPage();
             bool result = page.FieldsValidation(data, 0);
             Assert.IsTrue(result);
         }
@@ -64,7 +61,7 @@ namespace Telephone.Tests
                 Company = "Company",
                 Occupation = "IT"
             };
-            AddPage page = new AddPage();
+            ViewRedactionPage page = new ViewRedactionPage();
             bool result = page.FieldsValidation(data, 1);
             Assert.IsFalse(result);
         }
@@ -82,7 +79,7 @@ namespace Telephone.Tests
                 Company = "Company",
                 Occupation = "IT"
             };
-            AddPage page = new AddPage();
+            ViewRedactionPage page = new ViewRedactionPage();
             bool result = page.FieldsValidation(data, 0);
             Assert.IsTrue(result);
         }

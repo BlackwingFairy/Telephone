@@ -98,6 +98,11 @@
     </Compile>
     <Compile Include="Services\AddService.cs" />
     <Compile Include="Services\Data.cs" />
+    <Compile Include="Services\DeleteService.cs" />
+    <Compile Include="Services\RedactionData.cs" />
+    <Compile Include="Services\RedactionService.cs" />
+    <Compile Include="Services\SearchService.cs" />
+    <Compile Include="Services\ValidationServise.cs" />
     <Compile Include="StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
     </Compile>

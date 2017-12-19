@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Telephone.Models;
+using Telephone.Services;
 
 namespace Telephone
 {
@@ -21,18 +22,25 @@ namespace Telephone
     /// </summary>
     public partial class ViewRedactionPage : Page
     {
+        PhoneContext context;
+        ValidationServise vServise;
+        RedactionService service;
+
         public ViewRedactionPage()
         {
             InitializeComponent();
+            context = new PhoneContext();
+            vServise = new ValidationServise(errorLabel);
+            service = new RedactionService(context);
         }
 
-        public object Phone { get; set; }
-        public int T { get; set; }
+        public Phone Phone { get; set; }
+        public int Table { get; set; }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            typeBox.SelectedIndex = T;
-            if (T == 0)
+            typeBox.SelectedIndex = Table;
+            if (Table == 0)
             {
                 PersonalTelephone phone = Phone as PersonalTelephone;
                 numberTextBox.Text = phone.PhoneNumber;
@@ -51,8 +59,7 @@ namespace Telephone
             }
             
         }
-
-        PhoneContext context = new PhoneContext();
+        
 
         private void typeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -83,39 +90,7 @@ namespace Telephone
             errorLabel.Visibility = Visibility.Collapsed;
         }
 
-        private bool LengthValid(int start, int end, Label eLabel, TextBox textBox, string name)
-        {
-            if (textBox.Text.Length != 0)
-            {
-                if ((textBox.Text.Length < start) || (textBox.Text.Length > end))
-                {
-                    if (start != 0)
-                    {
-                        eLabel.Content = "Поле \"" + name + "\" должно содержать от " + start + " до " + end + " символов.";
-
-                    }
-                    else
-                    {
-                        eLabel.Content = "В поле \"" + name + "\" нельзя вводить более " + end + " символов";
-                    }
-                    eLabel.Visibility = Visibility.Visible;
-                    return false;
-                }
-                else
-                {
-                    eLabel.Visibility = Visibility.Collapsed;
-                    return true;
-                }
-
-            }
-            else
-            {
-                errorLabel.Content = "Все поля должны быть заполнены";
-                errorLabel.Visibility = Visibility.Visible;
-                return false;
-            }
-        }
-
+        
         private void surnameTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             bool flag = true;
@@ -172,13 +147,26 @@ namespace Telephone
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
+            Data data = new Data
+            {
+                Name = nameTextBox.Text,
+                Address = addressTextBox.Text,
+                Company = companyTextBox.Text,
+                Surname = surnameTextBox.Text,
+                Patronymic = patronymicTextBox.Text,
+                Occupation = occupationBox.Text,
+                Number = numberTextBox.Text
+            };
+            bool valid;
             switch (typeBox.SelectedIndex)
             {
-                case 0:
-                    PersonalRedaction(Phone as PersonalTelephone);
+                case 0:                    
+                    valid = FieldsValidation(data, typeBox.SelectedIndex);                    
+                    service.PersonalRedaction(Phone as PersonalTelephone,data, valid);
                     break;
                 case 1:
-                    CorpRedaction(Phone as CorporativeTelephone);
+                    valid = FieldsValidation(data, typeBox.SelectedIndex);
+                    service.CorpRedaction(Phone as CorporativeTelephone, data, valid);
                     break;
                 default:
                     errorLabel.Visibility = Visibility.Visible;
@@ -186,60 +174,46 @@ namespace Telephone
             }
         }
 
+        public bool FieldsValidation(Data data, int selectedType)
+        {
+            switch (selectedType)
+            {
+                case 0:
+                    bool numValidP = vServise.LengthValid(10, 20, numErrorLabel, data.Number, "Телефон");
+                    bool addrValidP = vServise.LengthValid(0, 300, addrErrorLabel, data.Address, "Адрес");
+                    bool surValid = vServise.LengthValid(0, 20, surErrorLabel, data.Surname, "Фамилия");
+                    bool nameValid = vServise.LengthValid(0, 20, nameErrorLabel, data.Name, "Имя");
+                    bool patrValid = vServise.LengthValid(0, 20, patrErrorLabel, data.Patronymic, "Отчество");
+                    if (numValidP && addrValidP && surValid && nameValid && patrValid)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                case 1:
+                    bool numValidC = vServise.LengthValid(10, 20, numErrorLabel, data.Number, "Телефон");
+                    bool addrValidC = vServise.LengthValid(0, 300, addrErrorLabel, data.Address, "Адрес");
+                    bool compValid = vServise.LengthValid(0, 100, compErrorLabel, data.Company, "Название компании");
+                    bool occupValid = data.Occupation != null;
+
+                    if (numValidC && addrValidC && compValid && occupValid)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                default:                    
+                    return false;
+            }
+        }
+
         
-        private void PersonalRedaction(PersonalTelephone phone)
-        {
-            bool numValid = LengthValid(10, 20, numErrorLabel, numberTextBox, "Телефон");
-            bool addrValid = LengthValid(0, 300, addrErrorLabel, addressTextBox, "Адрес");
-            bool surValid = LengthValid(0, 20, surErrorLabel, surnameTextBox, "Фамилия");
-            bool nameValid = LengthValid(0, 20, nameErrorLabel, nameTextBox, "Имя");
-            bool patrValid = LengthValid(0, 20, patrErrorLabel, patronymicTextBox, "Отчество");
 
-            if (numValid & addrValid & surValid & nameValid & patrValid)
-            {
-                PersonalTelephone redPhone = context.PersPhone.Find(phone.Id);
-
-                redPhone.PhoneNumber = numberTextBox.Text;
-                redPhone.Address = addressTextBox.Text;
-                redPhone.Surname = surnameTextBox.Text;
-                redPhone.Name = nameTextBox.Text;
-                redPhone.Patronymic = patronymicTextBox.Text;
-                
-                context.SaveChanges();
-                var result = MessageBox.Show("Изменения успешно добавлены в базу.","Редактирование записи", MessageBoxButton.OK);
-                if (result == MessageBoxResult.OK)
-                {
-                    NavigationService.GoBack();
-                }
-            }
-        }
-
-
-        private void CorpRedaction(CorporativeTelephone phone)
-        {
-            bool numValid = LengthValid(10, 20, numErrorLabel, numberTextBox, "Телефон");
-            bool addrValid = LengthValid(0, 300, addrErrorLabel, addressTextBox, "Адрес");
-            bool compValid = LengthValid(0, 100, compErrorLabel, companyTextBox, "Название компании");
-            bool occupValid = occupationBox.SelectedIndex != -1;
-
-            if (numValid & addrValid & compValid & occupValid)
-            {
-                CorporativeTelephone redPhone = context.CorpPhones.Find(phone.Id);
-
-                redPhone.PhoneNumber = numberTextBox.Text;
-                redPhone.Address = addressTextBox.Text;
-                redPhone.Occupation = occupationBox.Text;
-                redPhone.Company = companyTextBox.Text;                
-
-                context.SaveChanges();
-                var result = MessageBox.Show("Изменения успешно добавлены в базу.", "Редактирование записи", MessageBoxButton.OK);
-                if (result == MessageBoxResult.OK)
-                {
-                    NavigationService.GoBack();
-                }
-            }
-        }
-
+        
        
         private void oTypeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Telephone.Models;
+using Telephone.Services;
 
 namespace Telephone
 {
@@ -24,12 +25,14 @@ namespace Telephone
         public RedactionPage()
         {
             InitializeComponent();
-            PhoneContext db = new PhoneContext();
-            personalGrid.ItemsSource = db.PersPhone.ToList();
-            corporativeGrid.ItemsSource = db.CorpPhones.ToList();
+            context = new PhoneContext();
+            service = new RedactionService(context);
+            personalGrid.ItemsSource = context.PersPhone.ToList();
+            corporativeGrid.ItemsSource = context.CorpPhones.ToList();
         }
 
-        PhoneContext db = new PhoneContext();
+        PhoneContext context;
+        RedactionService service;
 
         private void personalButton_Click(object sender, RoutedEventArgs e)
         {
@@ -50,25 +53,10 @@ namespace Telephone
 
         private void redactionButton_Click(object sender, RoutedEventArgs e)
         {
-            if (personalGrid.Visibility == Visibility.Visible)
-            {
-                if (personalGrid.SelectedItems.Count > 0)
-                {                    
-                    PersonalTelephone phone = personalGrid.SelectedItem as PersonalTelephone;
-                    NavigationService.Navigate(new ViewRedactionPage() { Phone=phone, T=0 });
-                }
-                
-            }
-            if (corporativeGrid.Visibility == Visibility.Visible)
-            {
-                if (corporativeGrid.SelectedItems.Count > 0)
-                {
-                    CorporativeTelephone phone = corporativeGrid.SelectedItem as CorporativeTelephone;
-                    NavigationService.Navigate(new ViewRedactionPage() { Phone = phone, T = 1 });
-                }
-                
-            }
-            
+            RedactionData data = service.GetPhone(personalGrid, corporativeGrid);
+            NavigationService.Navigate(new ViewRedactionPage() { Phone = data.Phone, Table = data.Table });
         }
+
+        
     }
 }

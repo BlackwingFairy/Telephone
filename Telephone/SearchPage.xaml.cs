@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Telephone.Models;
+using Telephone.Services;
 
 namespace Telephone
 {
@@ -24,10 +25,22 @@ namespace Telephone
         public SearchPage()
         {
             InitializeComponent();
+            context = new PhoneContext();
+            service = new SearchService(context);
+            vService = new ValidationServise();
         }
 
-        List<Phone> testList;
-        PhoneContext db = new PhoneContext();
+        public SearchPage(SearchService service)
+        {
+            InitializeComponent();
+            context = new PhoneContext();
+            this.service = service;
+            vService = new ValidationServise();
+        }
+
+        SearchService service;
+        ValidationServise vService;
+        PhoneContext context;
 
         private void tRadioButton1_Checked(object sender, RoutedEventArgs e)
         {
@@ -46,129 +59,26 @@ namespace Telephone
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            testList = Search(searchTextBox.Text, sTypeBox.SelectedIndex, (bool)tRadioButton1.IsChecked).ToList();
+            Search(searchTextBox.Text, sTypeBox.SelectedIndex, (bool)tRadioButton1.IsChecked, 
+                vService.SearchLineValid(searchTextBox.Text, errorLabel));
         }
 
-        private IEnumerable<Phone> Search(string text, int selected, bool check)
+        public void Search(string text, int selected, bool check, bool valid)
         {
-            if (check)
+            if (valid)
             {
-                List<PersonalTelephone> list = SearchPersonal(text, selected);
-                if (list.Count != 0)
+                if (check)
                 {
-                    resultLabel.Visibility = Visibility.Collapsed;
-                    corporativeGrid.Visibility = Visibility.Collapsed;
-                    personalGrid.Visibility = Visibility.Visible;
-
-                    personalGrid.ItemsSource = list;
-                    
+                    List<PersonalTelephone> list = service.SearchPersonal(text, selected);
+                    service.FillGrid(personalGrid, corporativeGrid, errorLabel, resultLabel, list);
                 }
                 else
                 {
-                    corporativeGrid.Visibility = Visibility.Collapsed;
-                    personalGrid.Visibility = Visibility.Collapsed;
-                    if (errorLabel.Visibility == Visibility.Collapsed)
-                    {
-                        resultLabel.Visibility = Visibility.Visible;
-                    }
-                    
+                    List<CorporativeTelephone> list = service.SearchCorporative(text, selected);
+                    service.FillGrid(personalGrid, corporativeGrid, errorLabel, resultLabel, list);
                 }
-                return list;
-            }
-            else
-            {
-                List<CorporativeTelephone> list = SearchCorporative(text, selected);
-                if (list.Count != 0)
-                {
-                    resultLabel.Visibility = Visibility.Collapsed;
-                    personalGrid.Visibility = Visibility.Collapsed;
-                    corporativeGrid.Visibility = Visibility.Visible;
-
-                    corporativeGrid.ItemsSource = list;
-                }
-                else
-                {
-                    corporativeGrid.Visibility = Visibility.Collapsed;
-                    personalGrid.Visibility = Visibility.Collapsed;
-                    if (errorLabel.Visibility == Visibility.Collapsed)
-                    {
-                        resultLabel.Visibility = Visibility.Visible;
-                    }
-                }
-                return list;
-            }
-        }
-
-        private bool SearchLineValid(string text)
-        {
-            if (text.Length != 0)
-            {
-                if (text.Length > 20)
-                {
-                    errorLabel.Content = "Запрос не может быть длиннее 20 символов!";
-                    errorLabel.Visibility = Visibility.Visible;
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                errorLabel.Content = "Заполните все поля!";
-                errorLabel.Visibility = Visibility.Visible;
-                return false;
             }
             
-        }
-
-        private List<PersonalTelephone> SearchPersonal(string text, int selected)
-        {
-            List<PersonalTelephone> result = new List<PersonalTelephone>();
-            if (SearchLineValid(text))
-            {
-                switch (selected)
-                {
-                    case 0:
-                        result = db.PersPhone.Where(phone => phone.Name == text).ToList();
-                        result.AddRange(db.PersPhone.Where(phone => phone.Surname == text).ToList());
-                        result.AddRange(db.PersPhone.Where(phone => phone.Patronymic == text).ToList());
-                        break;
-                    case 1:
-                        result = db.PersPhone.Where(phone => phone.PhoneNumber == text).ToList();
-                        break;
-                    default:
-                        errorLabel.Visibility = Visibility.Visible;
-                        break;
-                }
-            }            
-            return result;
-        }
-
-        private List<CorporativeTelephone> SearchCorporative(string text, int selected)
-        {
-            List<CorporativeTelephone> result = new List<CorporativeTelephone>();
-            if (SearchLineValid(text))
-            {
-                switch (selected)
-                {
-                    case 0:
-                        result = db.CorpPhones.Where(phone => phone.Company == text).ToList();
-                        break;
-                    case 1:
-                        result = db.CorpPhones.Where(phone => phone.PhoneNumber == text).ToList();
-                        break;
-                    case 2:
-                        result = db.CorpPhones.Where(phone => phone.Occupation == text).ToList();
-                        break;
-                    default:
-                        errorLabel.Visibility = Visibility.Visible;
-                        break;
-                }
-            }
-                
-            return result;
         }
 
 

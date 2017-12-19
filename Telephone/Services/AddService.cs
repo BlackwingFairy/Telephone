@@ -85,8 +85,6 @@ namespace Telephone.Services
                 MessageBox.Show("Данный номер уже есть в базе", "Ошибка", MessageBoxButton.OK);
                 return true;
             }
-
-
             return false;
         }
     }

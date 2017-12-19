@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Telephone.Models;
+using Telephone.Services;
 
 namespace Telephone
 {
@@ -24,12 +25,14 @@ namespace Telephone
         public DeletePage()
         {
             InitializeComponent();
-            PhoneContext db = new PhoneContext();
-            personalGrid.ItemsSource = db.PersPhone.ToList();
-            corporativeGrid.ItemsSource = db.CorpPhones.ToList();
+            context = new PhoneContext();
+            service = new DeleteService(context);
+            personalGrid.ItemsSource = context.PersPhone.ToList();
+            corporativeGrid.ItemsSource = context.CorpPhones.ToList();
         }
 
-        PhoneContext db = new PhoneContext();
+        PhoneContext context;
+        DeleteService service;
 
         private void personalButton_Click(object sender, RoutedEventArgs e)
         {
@@ -52,51 +55,11 @@ namespace Telephone
         {
             if (personalGrid.Visibility == Visibility.Visible)
             {
-                if (personalGrid.SelectedItems.Count > 0)
-                {
-                    for (int i = 0; i < personalGrid.SelectedItems.Count; i++)
-                    {
-                       
-                        
-                        PersonalTelephone phone = personalGrid.SelectedItems[i] as PersonalTelephone;
-                        PersonalTelephone del = db.PersPhone.Find(phone.Id);
-                        if (del != null)
-                        {
-                            var result = MessageBox.Show("Вы действительно хотите удалить эту запись?", "Удаление",  MessageBoxButton.YesNo);
-                            if (result == MessageBoxResult.Yes)
-                            {
-                                db.PersPhone.Remove(del);
-                            }                            
-                        }
-                    }
-                }
-                db.SaveChanges();
-                personalGrid.ItemsSource = db.PersPhone.ToList();
-
+                personalGrid = service.DeletePersonal(personalGrid);
             }
-            if (corporativeGrid.Visibility == Visibility.Visible)
+            else
             {
-                if (corporativeGrid.SelectedItems.Count > 0)
-                {
-                    for (int i = 0; i < corporativeGrid.SelectedItems.Count; i++)
-                    {
-
-
-                        CorporativeTelephone phone = personalGrid.SelectedItems[i] as CorporativeTelephone;
-                        CorporativeTelephone del = db.CorpPhones.Find(phone.Id);
-                        if (del != null)
-                        {
-                            var result = MessageBox.Show("Вы действительно хотите удалить эту запись?", "Удаление", MessageBoxButton.YesNo);
-                            if (result == MessageBoxResult.Yes)
-                            {
-                                db.CorpPhones.Remove(del);
-                            }
-                        }
-                    }
-                }
-                db.SaveChanges();
-                corporativeGrid.ItemsSource = db.CorpPhones.ToList();
-
+                corporativeGrid = service.DeleteCorporative(corporativeGrid);
             }
         }
     }

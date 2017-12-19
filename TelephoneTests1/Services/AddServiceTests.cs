@@ -48,6 +48,7 @@ namespace Telephone.Services.Tests
             bool result = service.IsDublicate("1234567890000");
 
             Assert.IsTrue(result);
+            
         }
 
         [TestMethod()]
@@ -85,6 +86,7 @@ namespace Telephone.Services.Tests
             bool result = service.IsDublicate("1234567890002");
 
             Assert.IsFalse(result);
+            
         }
 
         [TestMethod()]
@@ -120,9 +122,10 @@ namespace Telephone.Services.Tests
 
 
             AddService service = new AddService(mockContext.Object);
-            bool result = service.IsDublicate("123456789000");
+            bool result = service.IsDublicate("1234567890001");
 
             Assert.IsTrue(result);
+            
         }
 
         [TestMethod()]
@@ -145,6 +148,7 @@ namespace Telephone.Services.Tests
             
             mockService.Object.AddPhone(0, false, data, true);
             mockService.Verify(m => m.PersonalAdd(It.IsAny<Data>()), Times.Once());
+            
         }
 
         [TestMethod()]
@@ -189,6 +193,7 @@ namespace Telephone.Services.Tests
 
             mockService.Object.AddPhone(0, true, data, false);
             mockService.Verify(m => m.PersonalAdd(It.IsAny<Data>()), Times.Never());
+            
         }
 
         [TestMethod()]
@@ -211,6 +216,7 @@ namespace Telephone.Services.Tests
 
             mockService.Object.AddPhone(0, false, data, false);
             mockService.Verify(m => m.PersonalAdd(It.IsAny<Data>()), Times.Never());
+            
         }
 
         [TestMethod()]
@@ -232,6 +238,7 @@ namespace Telephone.Services.Tests
 
             mockService.Object.AddPhone(1, false, data, true);
             mockService.Verify(m => m.CorpAdd(It.IsAny<Data>()), Times.Once());
+            
         }
 
         [TestMethod()]
@@ -253,6 +260,7 @@ namespace Telephone.Services.Tests
 
             mockService.Object.AddPhone(1, true, data, true);
             mockService.Verify(m => m.CorpAdd(It.IsAny<Data>()), Times.Never());
+            
         }
 
         [TestMethod()]
@@ -274,6 +282,7 @@ namespace Telephone.Services.Tests
 
             mockService.Object.AddPhone(1, true, data, false);
             mockService.Verify(m => m.CorpAdd(It.IsAny<Data>()), Times.Never());
+            
         }
 
         [TestMethod()]
@@ -295,6 +304,7 @@ namespace Telephone.Services.Tests
 
             mockService.Object.AddPhone(1, false, data, false);
             mockService.Verify(m => m.CorpAdd(It.IsAny<Data>()), Times.Never());
+           
         }
 
         [TestMethod()]
@@ -322,6 +332,7 @@ namespace Telephone.Services.Tests
             mockService.Object.AddPhone(-1, false, data, true);
             mockService.Verify(m => m.PersonalAdd(It.IsAny<Data>()), Times.Never());
             mockService.Verify(m => m.CorpAdd(It.IsAny<Data>()), Times.Never());
+            
         }
 
         [TestMethod()]
@@ -350,6 +361,7 @@ namespace Telephone.Services.Tests
             mockContext.Verify(m => m.SaveChanges(), Times.Once());
 
             Assert.IsNotNull(result);
+           
         }
 
 
@@ -381,6 +393,7 @@ namespace Telephone.Services.Tests
             mockContext.Verify(m => m.SaveChanges(), Times.Once());
 
             Assert.IsNotNull(result);
+            
         }
     }
 }
